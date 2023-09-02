@@ -1,6 +1,6 @@
 Hi,
 This is Shahid.
-it contains my some practicle work that I have applied throughout my career which you my find usefull in
+it contains my some practicle knowledge that I have applied throughout my career.
 
 1. Managing Linux Systems
 2. Linux automation
