@@ -1,7 +1,9 @@
 Hi This is Shahid.
-It contains my some practicle knowledge that I have applied throughout my career which includes
-# Managing Linux Systems
-# Linux automation
-# BASH Scripting
-# Application/Database Hosting
-# Managing Backups
+it contains my some practicle work that I have applied throughout my career which you my find usefull in
+
+1. Managing Linux Systems
+2. Linux automation
+3. BASH Scripting
+4. Application/Database Hosting
+5. Managing Backups
+
