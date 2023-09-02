@@ -1,0 +1,135 @@
+########### The ps command ############
+
+# ps 		lists processes specific to the terminal
+# ps -e 	lists each and every process
+
+# ps -ef	lists every process in full format
+# ps -efl	lists every process in full long format
+
+# ps -C sshd	lists all process that match the specified command
+
+# ps -u user1	lists all processes owned by user1
+
+# ps -u group1	lists all processes owned by group1
+
+
+########### Printing process id of a specific process ##########
+
+# pidof mysqld		prints the process id of specified process
+
+# pgrep mysqld		prints the process id of specified process alongwith parent processes
+
+
+########### Process Niceness #############
+A process is spawned at a certain priority, which is
+established at initiation based on a numeric value called
+niceness (a.k.a. a nice value). There are 40 niceness values,
+with -20 being the highest or the most favorable to the
+process, and +19 being the lowest or the least favorable to
+the process
+
+# ps -el 			priority (PRI, column 7), which is calculated based on the current niceness value (NI, column 8)	
+
+# nice				prints the default nice value
+
+# sudo nice -n 2 mysqld		renices mentioned process at its startup
+
+# sudo renice -3 5588		renices a running process identified by a process id
+ 
+
+######### Controlling Processes with Signals ##########
+Sometimes it becomes necessary to alert a
+process of an event. This is done by sending a control signal
+to the process. Processes may use signals to alert each other
+as well. The receiving process halts its execution as soon as it
+gets the signal and takes an appropriate action as per the
+instructions enclosed in the signal. The instructions may
+include terminating the process gracefully, killing it abruptly,
+or forcing it to re-read its configuration.
+
+# kill -l			lists all possible signals that can be sent to processes
+# pkill 744			like kill command
+Following are most commonly used signals.
+
+Signal Number		Signal Name		Action
+		
+1 			SIGHUP 			Hang up signal causes a process to
+						disconnect itself from a closed terminal
+						that it was tied to. Also used to instruct
+						a running daemon to re-read its
+						configuration without a restart.
+2 			SIGINT 			The ^c (Ctrl+c) signal issued on the
+						controlling terminal to interrupt the
+						execution of a process.
+9 			SIGKILL 		Terminates a process abruptly
+15 			SIGTERM 		Sends a soft termination signal to stop
+						a process in an orderly fashion. This is
+						the default signal if none is specified
+						with the command.
+18 			SIGCONT 		Same as using the bg command to resume
+19 			SIGSTOP 		Same as using Ctrl+z to suspend a job
+20 			SIGTSTP 		Same as using the fg command
+
+
+######################### Top Command Syntax and Options ###########################
+
+# top 				displays all process table with realtime usage
+# top -u shahid			displays all the process started by specific usage
+# top -p 1760			displays process be process id number
+
+#### Sort Processes
+By default, top sorts the process list using the %CPU column. To sort processes using a different column, press one of the following keys:
+
+    M. Sort by the %MEM column.
+    N. Sort by PID column.
+    T. Sort by the TIME+ column.
+    P. Sort by the %CPU column.
+
+#### Change Display Units
+Use the E key to choose the units you want top to use for displaying the memory values. 
+Press lowercase e to choose the units for displaying values in the process list. The available options are:
+
+    kibibytes (KiB)
+    mebibytes (MiB)
+    gibibytes (GiB)
+    tebibytes (TiB)
+    pebibytes (PiB)
+    exbibytes (EiB - applies only for memory values)
+
+#### Individual CPU Core Statistics
+Pressing 1 on your keyboard allows you to see individual statistics for each CPU core. Press 1 repeatedly to toggle core statistics.
+If you want a graphical representation of CPU usage, top supports elementary ASCII graphs, denoting each CPU core usage. Toggle the graphs on or off by pressing t.
+
+
+#### Memory Usage Graph
+The command also supports graphical display options of memory and swap memory lines. To get a visual representation of memory usage, press m. Remove the lines by pressing m again
+
+#### Show Process Command Line
+To see the full command line instead of the process name, press the c key. To toggle back to displaying the process name, press c again.
+
+########### Fundamental keystrokes in top
+
+l ,  t ,  m 	Toggles for load, threads, and memory header lines.
+1 	Toggle showing individual CPUs or a summary for all CPUs in header.
+s   (1) 	Change the refresh (screen) rate, in decimal seconds (e.g., 0.5, 1, 5).
+b 	Toggle reverse highlighting for  Running  processes; default is bold only.
+B 	Enables use of bold in display, in the header, and for  Running  processes.
+H 	Toggle threads; show process summary or individual threads.
+u ,  U 	Filter for any user name (effective, real).
+M 	Sorts process listing by memory usage, in descending order.
+P 	Sorts process listing by processor utilization, in descending order.
+k   (1) 	Kill a process. When prompted, enter  PID , then  signal .
+r   (1) 	Renice a process. When prompted, enter  PID , then  nice_value .
+W 	Write (save) the current display configuration for use at the next  top  restart.
+q 	Quit.
+
+
+
+###### Use iotop to Manage Disk IO realtime
+###### Use Utop similar to top
+###### use ethtool to monitor specific network interface
+ 
+
+
+
+

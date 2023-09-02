@@ -1,0 +1,105 @@
+################## Configuring Network #####################
+
+# vim /etc/network/interfaces					edit the file and edit the configuration associated with interface
+
+typical congiguration of this /etc/network/interfaces file looks like
+
+
+auto ens33								# auto connects
+iface ens33 inet static							# specify interface name
+address 192.168.1.42							
+network 192.168.1.0
+netmask 255.255.255.128
+broadcast 192.168.1.0
+up route add -net 192.168.1.128 netmask 255.255.255.128 gw 192.168.1.2
+up route add default gw 192.168.1.200					# sets default gateway
+down route del default gw 192.168.1.200
+down route del -net 192.168.1.128 netmask 255.255.255.128 gw 192.168.1.2
+hwaddress 00:16:76:02:BA:DB						#specifies the mac address of the interface	
+
+
+for dhcp 
+
+auto eth0
+iface eth0 inet dhcp
+pre-up [ -f /etc/network/local-network-ok ]
+
+will allow you to only have eth0 brought up when the file 
+/etc/network/local-network-ok exists.	
+
+
+
+# vim /etc/sysconfig/network-scripts/ifcfg-ens33		edit the file specified by interface name and configure the network by auto or mannual method
+# vim /etc/resolv.conf						edit the file and add dns resolver servers
+# vim /etc/hosts						Static hostnames are locally defined hostname-to-IP mappings located in the file /etc/hosts
+# vim /etc/hosts.allow
+# vim /etc/hosts.deny
+
+
+Typical /etc/sysconfig/network-scripts/ifcfg-ens33 configuration file looks like
+
+DEVICE=eth0
+TYPE=Ethernet
+HWADDR=00:16:76:02:BA:DB
+ONBOOT=yes
+BOOTPROTO=static				# static/manual/dhcp
+IPADDR=192.168.0.10
+BROADCAST=192.168.0.255
+NETMASK=255.255.255.0
+NETWORK=192.168.0.0
+GATEWAY=192.168.0.254
+DNS1=192.168.0.254
+DNS2=8.8.8.8
+UUID=98798bf6-52ff-4b6f-9ff5-5cc758b89588	# Unique ID of this interface.
+USERCTL=no					# Specifies whether the non-root users are allowed to activate this interface or not.
+IPV6INIT=no
+NM_CONTROLLED					# Specifies whether the Network Manager service is allowed to modify the settings stored in this file or not.
+NETWORKING=yes					# used to control the network service. It can be configured with two values; yes and no. If the value "no" is used, the network service does not start.
+
+
+
+
+
+
+if netowrk manager is installed then you can change the network settings by cli commands or tui commands.
+
+# nmtui								opens the network manager text user interface to edit network settings.
+
+# nmcli connection show						displays the network connections
+# nmcli con show
+
+# nmcli dev status						displays the stuatus or active or inactive interfaces
+# nmcli general stuats						Checking the overall status of NetworkManager
+# ip addr							check the IP address
+# ifconfig							displays the ip address configurations
+
+# nmcli con mod enps03 ipv4.addresses 192.168.2.20/24
+# nmcli con mod enps03 ipv4.gateway 192.168.2.1
+# nmcli con mod enps03 ipv4.dns “8.8.8.8”
+# nmcli con mod enps03 ipv4.method manual			commands used to modify network settings statically will be written to /etc/sysconfig/network-scripts/ifcfg-ens33 file for permanent use
+# nmcli con mod ens33 connection.autoconnect yes		used to activate specified connection automatically on boot.
+# nmcli con mod ens33 connection.id eth01			set the connection name
+
+#nmcli con mod eth01 connection.interface-name enp1s0			binds the device with connection 
+
+
+# nmcli con mod ens33 ipv4.method auto/dhcp				command used to set to obtain network settings from dhcp
+
+
+
+# ifup ens33							enables an interface
+# ifdown ens33							disables the specified interface
+
+# nmcli networking on 						starts the network services
+# nmcli networking off						stops the network services
+# nmcli con reload						reload the the configuration files
+
+
+# /etc/init.d/network    restart/stop/start/reload/status	if network manager or other service in not installed the use this to stop/start/reload/restart network service
+#
+
+
+
+
+
+ 			

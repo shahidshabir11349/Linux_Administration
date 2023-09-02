@@ -1,0 +1,80 @@
+####################### Securely Transfering Files Between Systems ########################
+
+############ Using scp (secure copy command) ##############
+
+SCP Relies on ssh to operate so ssh should be enabled and user must have permissions in order to copy files.
+
+scp provides a number of options that control every aspect of its behavior. The most widely used options are:
+
+    -P - Specifies the remote host ssh port.
+    -p - Preserves files modification and access times.
+    -q - Use this option if you want to suppress the progress meter and non-error messages.
+    -C - This option forces scp to compresses the data as it is sent to the destination machine.
+    -r - This option tells scp to copy directories recursively.
+
+
+# scp localmachine/path_to_the_file username@server_ip:/path_to_remote_directory    	copies specified file from local machine to Remote machine
+# scp -r  VerticalProgramIRMNCH shahid@192.168.10.200:/home/shahid/Desktop/		copies specified directory from local machine to remote machine
+
+# scp -r shahid@192.168.10.200:/home/shahid/Desktop/directorytobecopied	copieddirectoryname	 copies specified directory from remote system to local machine
+# scp shahid@192.168.10.200:/home/shahid/Desktop/filetobecopied	copiedfilename	 		copies specified file from remote system to local machine
+
+# scp shahid@192.168.10.200:/home/shahid/Desktop/rufus-3.17.exe  hisdu@172.16.0.10:/home/hisdu/Desktop/		this command copies file or directories from remote machine to another remote machine
+
+# scp -P 2322 file.txt remote_username@10.10.0.2:/remote/directory			if ssh is listening on other port then specifiy port no using -P option
+
+# scp -p  file.txt remote_username@10.10.0.2:/remote/directory				preserves file modification and access time using -p option				
+
+
+
+################# using pscp PuTTY (Secure Copy client) for windows ##################
+
+	Download PSCP from putty.org
+	Open cmd in the directory with pscp.exe file
+	Type command pscp source_file user@host:destination_file
+	commands like
+    	C:\>pscp  D:/os/windos 10 Pro.iso shahid@192.168.10.227:Desktop/     **for copying files local to remote
+	> pscp -r test  shahid@192.168.10.227:Desktop/       **for copying directories local to remote
+	>pscp -r  shahid@192.168.10.227:Desktop/test C:/new/  **for copying from remote to local
+
+	for further details please type pscp /?  
+
+
+
+################# Using SFTP for windows and linux ####################
+
+The sftp command is an interactive file transfer program with a user interface similar to ftp. However, sftp uses
+the SSH File Transfer Protocol to create a secure connection to the server.Not all options available with the ftp command are included in the sftp command, but many of them are.
+
+sftp remote-system-ip				Establishes an sftp connection to a remote system. For instructions, see How to Open and Close an sftp Connection to a Remote System.
+sftp remote-system:file				Copies the named file from remote-system.
+bye						Quits the sftp session.
+help						Lists all sftp commands.
+ls						Lists the contents of the remote working directory.
+lls						Lists the contents of the local working directory.
+pwd						Displays the name of the remote working directory.
+cd						Changes the remote working directory.
+lcd						Changes the local working directory.
+mkdir						Creates a directory on the remote system.
+rmdir						Deletes a directory on the remote system.
+get						downloads/Copies a file from the remote working directory to the local working directory.
+put						uploads/Copies a file from the local working directory to the remote working directory.
+delete						Deletes a file from the remote working directory.
+
+
+# sftp> cd target-directory
+
+# sftp> ls -l target-directory 
+
+# sftp> put filename
+
+# sftp> get filename
+
+
+
+#########mounting smb share drive on linux syste ###########
+
+# sudo mount.cifs \\\\172.16.10.6\\D$   \home\hisdu\share  -o  username=administrator
+
+
+

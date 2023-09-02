@@ -1,0 +1,69 @@
+###################### Managing Firewall Rules in Ubuntu ########################
+
+
+#### Enable/Disable/Reseting/Status ####
+
+# ufw enable							enables the firewall in ubuntu
+# ufw disable 							disables the firewall in ubuntu
+
+# ufw reset							reset all the rule to defaults
+
+# ufw reload							reloads the firewall rules
+
+# ufw status							displays the rules status
+# ufw status numbered
+# ufw status verbose
+
+
+#### Allowing Connections ####
+
+# ufw allow ssh							add a new rule to firewall with service name
+
+# ufw allow 22							add a rule to firewall with port number
+
+# ufw allow 6000:6007/tcp					add a rule with tcp or udp port range
+# ufw allow 6000:6007/udp
+
+# ufw allow from 203.0.113.4/32					adds a rule to allow from specific ip address or ip subnet
+
+# ufw allow from 203.0.113.4/32 to any port 22		adds a rule to allow from specific ip address/pool and port number
+
+# ufw allow in on eth0 to any port 80				allows http traffic on specific network interface card
+# ufw allow in on eth1 to any port 3306				allows mysql traffic on specific network interface card
+
+
+#### Denying Connections ####
+
+# ufw deny http							deny from http port no 80
+
+# ufw deny from 172.16.1.5/32					deny from specific ip address or ip subnet
+
+# ufw deny out 25						denys outgoing connection to smtp
+
+
+
+#### Deleting Rules ####
+
+# ufw delete 2							deletes a rule with specified number
+
+# ufw delete allow http						deletes a rule with service name
+
+# ufw delete allow 80						deletes rule with port number
+
+
+
+####################### Manging Firewall in Redhat/Centos ###########################
+
+
+
+#### Enable/Disable/Reseting/Status ####
+
+# firewall-cmd --state						displays the current state
+
+
+# firewall-cmd --get-default-zone				displays the default zone
+
+# firewall-cmd --get-zones					lists the all zones
+
+# firewall-cmd --get-active-zones 				lists active zones
+

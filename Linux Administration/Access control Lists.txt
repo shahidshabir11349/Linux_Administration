@@ -1,0 +1,84 @@
+########### Access Control Lists ############
+The Access Control Lists (ACLs) provide an extended set of
+permissions that can be applied on files and directories. These
+permissions are in addition to the standard ugo/rwx permissions
+and the setuid, setgid, and sticky bit settings. The ACLs define
+permissions for named users and named groups using either
+octal or symbolic representation of permission allocation. The
+named users may or may not be part of the same group. ACLs
+are configured and treated the same way on both files and
+directories
+
+*** Access Acl are set on individual files and directories,
+*** Default Acl can only be applied at the directory level with files and subdirectories inheriting them automatically.
+		the directory to be applied the default ACLs needs to have the execute bit set at the public level.
+
+
+##############The setfacl command is used to apply, modify, or remove ACL
+settings. The format for supplying ACL permissions with the
+command is explained as under
+
+u[ser]:UID:perms 	Permissions assigned to a named user (username
+			or UID). The named user must exist in the
+			/etc/passwd file. If this field is left blank, the
+			permission will be applied to the owner of the file
+			or directory, which is equivalent to using the
+			chmod command.
+
+g[roup]:GID:perms	 Permissions assigned to a named group (group
+			name or GID). The named group must exist in the
+			/etc/group file. If this field is left blank, the
+			permission will be applied to the owning group of
+			the file or directory, which is equivalent to using
+			the chmod command
+
+o[ther]:perms 		Permissions assigned to users that are neither the
+			owner nor part of the owning group
+
+m[ask]:perms 		Maximum permissions for a named user or a
+			named group. If this is set to rw-, for example,
+			then no named user or group will have
+			permissions beyond read and write.
+
+######The setfacl command provides a multitude of switches to use
+Switch Description
+-b 	Removes all access ACLs
+-d 	Applies to default ACLs
+-k 	Removes all default ACLs
+-m	Sets or modifies ACLs
+-n 	Prevents an automatic recalculation of the mask
+-R 	Applies recursively to a directory
+-x 	Removes an access ACL
+
+
+######The inheritance works
+
+slightly different for files and subdirectories, as indicated below:
+• Files receive the shared directory’s default ACLs as their
+access ACLs
+• Subdirectories receive both default ACLs and access ACLs
+as they are
+
+
+
+
+
+######## Practice Commands
+
+# setfacl -m u:honey:rwx archive1.tar		sets the rwx permission to user honey which is not owner or not in owning group
+
+# setfacl -x u:honey: archive1.tar		removes the acl for user honey from specified file
+
+# getfacl /archive1.tar				prints the acl list applied to specified file of directory
+
+
+
+
+
+
+
+
+
+
+
+

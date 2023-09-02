@@ -1,0 +1,101 @@
+################################ Managing Daemons and Services Using Systemd/Systemctl ##################################
+
+Let's take a quick look at what transpires between "power-on" and "desktop log-in."
+
+    When you turn your computer on, the BIOS loads. This is software provided by the hardware manufacturer
+(separate from the operating system) and contains settings on the device from which you want to boot your session.
+The BIOS, depending on those settings, passes control to one of the computer's physical disks, specifically to its bootloader. While the bootloader can be set up to include configuration data, its primary job is to pass
+control on to an operating system. It provides an interface to select from among OSes if your computer has more than one. 
+GRUB is the standard bootloader for most modern Linux distributions.
+When a bootloader starts up a Linux operating system, the kernel (or the heart of the operating system) is loaded.
+This will link up to your hardware, and then it starts a single process we'll call a start-up process
+This start-up process is in turn responsible for starting all the other processes in the system.
+This includes server applications (including the X Server process on which your pretty desktop log-in will appear), 
+so-called "daemons" (programs that wait in the background for specific events, such as the CUPS printing daemon), 
+and others (like the cron daemon that executes programs on a schedule).
+
+
+######Daemon
+A daemon is a background, non-interactive program. It is detached from the keyboard and display of any interactive user.
+The word daemon for denoting a background program is from the Unix culture; it is not universal.
+
+
+###### Service
+A service is a program which responds to requests from other programs over some inter-process communication mechanism 
+(usually over a network). A service is what a server provides. For example, the NFS port mapping service is provided 
+as a separate portmap service, which is implemented as the portmapd daemon.
+
+
+###### Unit files
+The unit files on your system determine how systemd will start and run. Each corresponds to a single activity or component — or
+ unit in systemd terms. Each unit file is a simple text file describing a unit, what it does, what needs to run before or afterward, 
+and other details.Unit files can be stored in a few different places on your system. systemd looks for system unit files in this order:
+
+    /etc/systemd/system
+    /run/systemd/system
+    /usr/lib/systemd/system
+
+Unit files in the earlier directories override later ones. This is a useful scheme, because it lets you make changes in the /etc directory,
+ where configuration is expected. You should avoid making changes in /usr. Your system installs package data there that’s not expected to change.
+
+
+##### Service units
+These are the units that describe a process systemd can start and monitor. Service units are the most common units you’ll use daily. 
+They are controlled using systemctl as root
+
+# systemctl [command] NAME.service
+
+Typical commands include:
+
+start: starts a systemd unit
+stop: attempts to “nicely” end a service
+status: provides detailed information on a service
+restart: restarts (stops and then starts) the specified service
+enable: hooks (links) a unit to various places, for instance to run at boot
+disable: unhooks (unlinks) a unit, so it is not activated
+kill:   if a service does not respond to stop command then use the kill switch
+mask:  Completely disable a service from being started, both manually and at boot. 
+Unmask:	Make a masked service available.	
+list-dependencies: List units which are required and wanted by the specified unit.
+
+
+###### Service Owned Processes
+One interesting feature of systemd is that it monitors processes it starts with service units. To find out what processes are being monitored, 
+use the systemctl status command. For instance, here is output from that command checking the status of the sshd.service unit
+Notice also that the service has placed this process in a specially named control group. The control group (or “cgroup”) allows systemd to
+manage associated processes together. In future articles in the series, we’ll explore how this feature allows you to tune performance and resource limits.
+Thanks to knowing the processes owned by this service, systemd can also help you manage errant services. Normally when you stop a service
+
+
+
+###### Target Units
+Target units are used to link and group other units together to describe a desired system state. Some of these units may be services. Others may be 
+additional target units with their own groups of units.
+Here’s an example, the multi-user.target unit file:
+
+[Unit]
+Description=Multi-User System
+Documentation=man:systemd.special(7)
+Requires=basic.target
+Conflicts=rescue.service rescue.target
+After=basic.target rescue.service rescue.target
+AllowIsolate=yes
+
+In this case:
+    The multi-user.target requires that basic.target run successfully when multi-user.target is run.
+    If the rescue.service or rescue.target units run, they will cause this unit to stop, and vice versa.
+    The multi-user.target unit starts after basic.target starts, and after rescue.service and rescue.target are run, if those are started.
+    this target unit includes the AllowIsolate option. This option allows your system to treat the multi-user.target unit as a boot target, using the systemctl isolate command.
+
+Target units group other units together not just with their unit file contents. A target can also have a .wants directory that links to units which will be started along with the target.
+For instance, the /usr/lib/systemd/system/multi-user.target file has an associated folder /usr/lib/systemd/system/multi-user.target.wants. This directory contains links to units
+(not just services but other targets as well) that will run when this target is run. Each of those may have its own dependencies, or unit file options like Requires above, as well.
+
+
+
+################### when systemd is not installed #####################
+
+usually we can manage services through service and systemctl command but if these utilities are not installed or not present then we can manage services 
+using init.d. using the path
+
+# etc/init.d/servicename start|stop|restart|status

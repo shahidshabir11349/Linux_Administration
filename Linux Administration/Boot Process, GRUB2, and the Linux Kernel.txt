@@ -1,0 +1,103 @@
+############### Boot Process, GRUB2, and the Linux Kernel #################
+
+RHEL goes through a boot process after the system has been
+powered up or restarted. The boot process lasts until all enabled
+services are started. A login prompt will appear on the screen,
+which allows users to log in to the system. The boot process is
+automatic, but you may need to interact with it to take a non-
+default action, such as booting an alternative kernel, booting into
+a non-default operational state, repairing the system, recovering
+from an unbootable state, and so on
+
+###### The boot process on an x86 computer may be split into four major phases
+
+(1) The firmware phase 
+(2) The bootloader phase 
+(3) The kernel phase 
+(4) The initialization phase
+
+
+#### The firmware phase (BIOS and UEFI)
+
+The firmware is the BIOS (Basic Input/Output System) or the UEFI
+(Unified Extensible Firmware Interface) code that is stored in
+flash memory on the x86-based system board. It runs the Power-
+On-Self-Test (POST) to detect, test, and initialize the system
+hardware components. While doing so, it installs appropriate
+drivers for the video hardware and exhibit system messages on
+the screen. The firmware scans the available storage devices to
+locate a boot device, starting with a 512-byte image that
+contains 446 bytes of the bootloader program, 64 bytes for the
+partition table, and the last two bytes with the boot signature.
+This 512-byte tiny area is referred to as the Master Boot Record
+(MBR) and it is located on the first sector of the boot disk. As
+soon as it discovers a usable boot device, it loads the bootloader
+into memory and passes control over to it.
+
+
+#### The bootloader phase
+
+The Bootloader Phase
+Once the firmware phase is over and a boot device is detected,
+the system loads a piece of software called bootloader that is
+located in the boot sector of the boot device. RHEL uses GRUB2
+(GRand Unified Bootloader) version 2 as the bootloader program.
+GRUB2 supports both BIOS and UEFI firmware.
+The primary job of the bootloader program is to spot the Linux
+kernel code in the /boot file system, decompress it, load it into
+memory based on the configuration defined in the
+/boot/grub2/grub.cfg file, and transfer control over to it to further
+the boot process. For UEFI-based systems, GRUB2 looks for the
+EFI system partition /boot/efi instead, and runs the kernel based
+on the configuration defined in the /boot/efi/EFI/redhat/grub.efi
+file.
+
+
+#### The Kernel Phase
+The kernel is the central program of the operating system,
+providing access to hardware and system services. After getting
+control from the bootloader, the kernel extracts the initial RAM
+disk (initrd) file system image found in the /boot file system into
+memory, decompresses it, and mounts it as read-only on /sysroot
+to serve as the temporary root file system. The kernel loads
+necessary modules from the initrd image to allow access to the
+physical disks and the partitions and file systems therein. It also
+loads any required drivers to support the boot process. Later, it
+unmounts the initrd image and mounts the actual physical root
+file system on / in read/write mode.
+At this point, the necessary foundation has been built for the boot
+process to carry on and to start loading the enabled services. The
+kernel executes the systemd process with PID 1 and passes the
+control over to it.
+
+
+#### The Initialization Phase
+This is the fourth and the last phase in the boot process. systemd
+takes control from the kernel and continues the boot process. It is
+the default system initialization scheme used in RHEL 8. It starts
+all enabled userspace system and network services and brings
+the system up to the preset boot target.
+The system boot process is considered complete when all
+enabled services are operational for the boot target and users are
+able to log in to the system. 
+
+
+
+
+############ The GRUB2 Bootloader ###########
+
+After the firmware phase has concluded, the bootloader presents
+a menu with a list of bootable kernels available on the system
+and waits for a predefined amount of time before it times out and
+boots the default kernel. You may want to interact with GRUB2
+before the autoboot times out to boot with a non-default kernel,
+boot to a different target, or customize the kernel boot string.
+Pressing a key before the timeout expires allows you to interrupt
+the autoboot process and interact with GRUB2. If you wish to
+boot the system using the default boot device with all the
+configured default settings, do not press any key and let the 
+system go through the autoboot process.The default value is 5 seconds. 
+If you press no keys within the 5 seconds, the highlighted kernel will
+boot automatically.
+
+

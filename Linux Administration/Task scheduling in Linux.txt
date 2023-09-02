@@ -1,0 +1,110 @@
+########### Job Scheduling #############
+
+######### Controlling User Access
+This can be done by listing users in the allow or deny file located in the /etc
+directory for either service. These files are named at.allow and at.deny for the
+at service, and cron.allow and cron.deny for the cron service.
+
+## Table shows various combinations and their impact on
+user accessshows various combinations and their impact on
+user access
+
+
+at.allow /		at.deny /		Impact
+cron.allow		cron.deny
+
+Exists, and		Existence does 		All users listed in allow 
+contains user		not matter		files are permitted
+entries
+
+Exists, but is		Existence does not	No users are permitted
+empty			matter	
+
+Does not exist		 Exists, and		All users, other than
+			contains user		those listed in deny files,
+			entries			are permitted
+
+Does not exist 		Exists, but is		All users are permitted
+			empty
+
+Does not exist 		Does not exist 		No users are permitted
+
+
+#### by default all users are permitted. by default cron.deny file exists and empty and cron.allow does not exist.
+
+### one user name entry per line in all four files should be done correctly.
+
+### logs are kept in /var/log/cron file by default
+
+
+
+####### Using at command ##########
+
+at command is used to run job one time only. most common syntax is as under
+
+# at -f /command-to-run time-or-date
+
+# at -f /sbin/reboot  13:40 am
+
+####### some samples are given below
+
+at 	1:15am (executes the task at the next 1:15 a.m.)
+at	noon (executes the task at 12:00 p.m.)
+at 	23:45 (executes the task at 11:45 p.m.)
+at	midnight (executes the task at 12:00 a.m.)
+at	17:05 tomorrow (executes the task at 5:05 p.m. on the next day
+at 	now + 5 hours (executes the task 5 hours from now. We can
+	specify minutes, days, or weeks in place of hours)
+at 	3:00 10/15/20 (executes the task at 3:00 a.m. on October 15,2020)
+
+
+# sudo atrm 2				command is used to remove a task
+
+# sudo atq				list all pending tasks specified to a user
+
+
+########## Using crontab ##########
+Cron jobs are recorded and managed in a special file known as a crontab. Each user profile on the system can have their own crontab where they can schedule jobs, which is stored under /var/spool/cron/crontabs/
+
+## executes commands or tasks on regular basis
+
+## crontab files are located in /var/spool/cron directory. each authorized user with a scheduled job has afile matching their login name in this directory.
+
+## there is no need to restart or reload daemon after adding or modifying a job.
+
+## other locations where system crontables are stored and only root is allowed to access are /etc/crontab file and /etc/cron.d directory
+
+## crontab command is used to add remove and modify jobs
+
+crontab -e		used to edit cron job list
+
+crontab -l		used to list cron jobs for logged in user
+
+crontab -l -u shahid	used to list cron jobs for specified user
+
+crontab -r 		used to remove crontables for logged in user
+
+>>>command structure
+minute   hour   day_of_month   month  day_of_week   command_to_run
+
+minute 	0-59
+hour 	0-23
+Day of the month  1-31
+month 	1-12 or JAN-DEC
+Day of the week 0-6 or SUN-SAT
+
+
+@hourly 	0 * * * *
+@daily	 	0 0 * * *
+@weekly 	0 0 * * 0
+@monthly 	0 0 1 * *
+@yearly 	0 0 1 1 *
+
+## further values may be used with * and ranges in the crontables using the forward slash /.step vlues allow the number of skips for a given value.
+
+
+type command >crontab -e
+
+
+
+0 12 * * SUN /home/backup.sh 				# runs on evey sunday at 12 AM

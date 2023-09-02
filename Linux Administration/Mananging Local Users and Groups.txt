@@ -1,0 +1,210 @@
+﻿######################## Managing Loacal Users and Groups ############################
+
+###########Local User Authentication Files##############
+
+##RHEL supports three fundamental user account types 
+* The root user (a.k.a. the superuser or theadministrator), has full access to all services and administrative
+functions on the system
+* Normal users have user-level privileges; they cannot perform any administrative functions but can run
+applications and programs that have been authorized
+* Service accounts take care of their respective services, which include apache, ftp, mail, and chrony.
+
+##User account information for local users is stored in four files
+* passwd file location is /etc/passwd (user information)
+* shadow file location is /etc/shadow (encrypted passwords)
+* group file location is /etc/group  (group information)
+* gshadow file location is /etc/gshadow (encrypted passwords)
+* sudoers file location is /etc/sudoers (configuration for sudo).
+
+Example of the fields in /etc/passwd is
+
+username:password:UID:GID:comment:home:shell
+like
+dgarn:x:1001:1001:std user:/home/dgarn:/bin/bash
+
+password hashes are now moved to a file readable only by root: /etc/shadow
+
+Here's an example of /etc/shadow fields
+username:encrypted-password:last password change:min:max:warning:inactive:expired
+like
+haroon:$1$PFfm5Rfb$hSHa6Tc/JZL1lM1wKMpq:19164:10:100:5::19721:
+
+
+groups information is stored in /etc/group file with format given below
+
+group-name:passwordplace:groupid:groupmembers
+like
+shared:x:1004:test1,test2
+
+password information for groups is stored in /etc/gshadow file with format given below
+
+group-name:passwordplace:groupid:groupmembers
+like
+shared:!:1004:test1,test2
+
+
+
+############# Operations on Users and Groups ###############
+
+These operations are performed using the following commands:
+
+adduser: add a user to the system.
+userdel: delete a user account and related files.
+usermod: modify a user account.
+addgroup: add a group to the system.
+delgroup: remove a group from the system.
+groupmod: command modifies the definition of the specified GROUP
+chage: change user password expiry information.
+sudo: run one or more commands as another user (typically with superuser permissions).
+gpasswd: The gpasswd command is used to administer /etc/group, and /etc/gshadow.
+passwd: updates user's authentication tokens
+
+
+############# default configurations ###############
+The useradd command (discussed in the next section) picks up the default values from the 
+/etc/default/useradd and /etc/login.defs files for any options that are not specified at the
+command line when executing it
+
+#######login.defs file Directives
+
+Option 			Description
+
+MAIL_DIR 		Specifies the mail directory location
+PASS_MAX_DAYS,
+PASS_MIN_DAYS,		Define password aging attributes
+PASS_MIN_LEN, and
+PASS_WARN_AGE
+
+UID_MIN, UID_MAX,
+GID_MIN, and		Identify the ranges of UIDs and GIDs to be
+GID_MAX			allocated to new users and groups
+
+SYS_UID_MIN,
+SYS_UID_MAX,		Identify the ranges of UIDs and GIDs to be allocated to 
+SYS_GID_MIN, and	new service users and groups
+SYS_GID_MAX
+
+CREATE_HOME 		Defines whether to create a home directory
+UMASK 			Sets a umask value
+USERGROUPS_ENAB 	Defines whether to delete a user’s group (at
+			the time of user deletion) if it contains no more
+			members
+ENCRYPT_METHOD 		Specifies the encryption method for user passwords
+
+
+
+
+
+########### Checking the Users Activity	and Examine user and group information
+
+# who									Displays the current logged on users
+
+# w									Displays the more details about current logged on users
+
+# id 									displays the current/specified user information
+
+# groups								prints the associated groups to current logged in user
+# groups shahid								prints the associated groups to specified user shahid
+
+########### Review history of who logged in, login fails, reboot attempts
+
+# last									prints the history of who logged in or who attempted to reboot.
+
+# sudo lastb								prints the history of bad login attempts
+
+
+## Associated files
+    var/log/utmp – It contains information about users who are currently logged in
+    var/log/utmw – It contains the history of all logged-in users
+    var/log/btmp – It keeps all bad login attempts
+
+# lastlog 								prints the list of all users with their last login attempts
+
+########### Adding new users	(useradd command)
+
+# useradd kashif -p password -e 2022-04-01 -d /home/testingdir		creates user with password expiry date and desired home direcroty
+
+# useradd haroon -p password -g test					creates user with password and specified group
+
+# useradd nida -p password -g test -G test2				creates user with password and primary and supplenentary group by -g and -G options repectively		
+
+# useradd fiza -p password -M -N -s					creates user with password and no home directory and no group by -M and -N options respectively
+
+# useradd -s /sbin/nologin honey					created user with nologin non interactive mode
+
+########### Deleting users (userdel command)
+
+# userdel -f -r	 username						deletes specified user forcefully and removig home directory also with -f and -r options respectively
+
+########### Modifying existing users (usermod command)
+
+# usermod -e 2022-04-01							changes the expiry date of existing user
+
+# usermod -g test2 							changes the primary group of specified user
+
+# usermod -G test -a							adds the user to a new supplimentary group by retaining membership of previous groups by -a option
+
+# usermod -L shahid							locks a user password
+
+# usermod -U shahid							unlocks user's password
+
+# usermod haroon -e 1							locks a user account or expires forcefully
+
+########### Setting Aging parameters (chage, passwd commands)
+
+##chage command##
+
+# chage -l haroon							displays the age info of the specified user
+
+# chage haroon -E -1							sets the age of the user to infinity
+
+# chage haroon -E 1							expires a user account or locks
+
+# chage haroon -E 2022-10-10						sets the expiry of user date as YYYY-MM-DD
+
+# chage haroon -M  10							max no of days a password can last
+
+# chage haroon -M -1							sets the password age to infinity
+
+
+##The passwd Command##
+
+The common use of the passwd command is to set or modify
+a user’s password; however, you can also use this command
+to modify the password aging attributes and lock or unlock
+their account.here are some key options
+
+Option 				Description
+-d (--delete) 			Deletes a user password without expiring the user account.
+-e (--expire) 			Forces a user to change their password upon next logon.
+-i (--inactive)			Defines the number of days of inactivity after the password expiry and before the account is locked. It
+				corresponds to field 7 in the shadow file.
+-l(--lock)			Locks a user account.
+-n (--minimum)			Specifies the number of days that must elapse before the password can be changed. It corresponds
+				to field 4 in the shadow file.
+-S (--status) 			Displays the status information for a user.
+-u (--unlock) 			Unlocks a locked user account.
+-w (--warning)			Designates the number of days for which the user gets alerts to change their password before it actually 
+				expires. It corresponds to field 6 in the shadow file.
+-x (--maximum) 			Denotes the maximum number of days of password validity before the user password expires and it
+				must be changed. It corresponds to field 5 in the shadow file.
+
+##this command is mostly used for changing passwords of users and groups.
+
+# passwd shahid			will ask to enter new password two times for specified user
+
+
+
+########## changing the user to group mapings and ownerships (chown and chgrp)
+
+##chgrp command in Linux is used to change the group ownership of a file or directory. All files in Linux belong to an owner and a group
+
+# sudo chgrp groupname filename			changes owner group of a file
+
+# sudo chgrop -R groupname /directorypath	changes owner group of files and directories recursively 
+
+
+## Chown for Changing Ownership of File or Directories
+
+# chown shahid /test		makes shahid owner of test directory changes only owner not group
+# chown user:group /test/	changes owner and group of the test directory

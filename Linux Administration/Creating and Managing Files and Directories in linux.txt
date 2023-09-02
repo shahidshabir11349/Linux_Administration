@@ -1,0 +1,162 @@
+﻿################## Creating and Managing files in linux######################
+
+####### seven types of files: ##########
+regular				(-) represent regular files
+directory			“d” at the beginning of each line entry identifies the file as a directory
+block				"B" for block file
+special device
+character special device	“c” for character
+symbolic link
+named pipe
+socket
+
+
+
+###### creating/modifying the Files  ######
+
+# touch /path/file.txt	file2.txt	makes a file or files
+# touch -a  /path/file.txt		changes only access time of a file
+# touch -m  /path/file.txt		changes only modification time of a file
+
+# vim /source/file.txt			opens a file to edit or creates a file is not present and opens in edit mode
+# nano /source/file.txt			opens a file to edit or creates a file is not present and opens in edit mode
+more commands for reading files in different modes are more, less
+
+######## Displaying contents of a file ##########
+
+# cat			displays the contents 
+# tac			
+# more			displays the file contents and line by line with percentage
+# less 
+# head
+# tail			used to read log files
+######## Copying files and directories  #########
+
+# cp /source/filename /destination/		used to copy file from one directory to another
+# cp -s /source/filename /destination/		makes symbloic links inctead of copying but using a different name
+# cp -l	/source/filename /destination/		makes hard link files instead of copying with same inode number or matadata
+# cp -f						copies forcefully
+# cp -i 					interactive mode
+# cp -r						copies directories recursively
+# cp -P or cp -d				preserves ownership,timestamps
+# cp -v 					explains what is being done
+
+
+######## Moving or Renaming files and Directories #########
+
+# mv source/filename destination/  	used to move a file or directory at another directory
+# mv filename new_filename		used to rename a file
+# mv /source/ 	/destination/		simply moves or renames on destination path
+# mv -f  /source/   /Destination/       moves and dont ask before overwriting
+# mv -u /source/    /destination/	move only when source file is new or destination file is missing
+# mv -v  /source/	/destination/	moves and displays the progress or what is being done
+# mv -fr /source/directory /destination moves a directory and its subdirectories recursively
+
+
+###### Removing files and Directories ######
+
+# rm /source/test.txt			removes the file present at source
+# rm -fr /source/test/txt		removes forcefully
+# rm -fr /source/test/			removes forcefully the source directory
+# rmdir  /source/test/			removes the specified directory
+
+
+######## listing files and directories  ########
+
+# ls -f /etc/				used to list file present in a directory	
+# ls -l /etc				lists using a long listing format with permission, owner name, date created etc
+# ls -h /etc				lists files in human readable format
+# ls -a /etc				lists all items including files starting with .
+# ls -lA /etc				lists files in listing format with author of each file
+# ls -ltqc				lists and sorts accoring to date modified
+# ls -lht 
+
+
+######### moving and checking the file system  ##########
+
+# pwd					displays the current working directory
+# cd /var/desired/			changes the current working directory to the desired
+# cd 					changes to users home directory
+# cd -	or cd ..			moves one directory back
+# cd /					changes to the root directory
+
+# tree 				displays the hierarchy of directories
+# tree /home -L 1 		restrict to max level 1
+
+########## Identifying Terminal Device File #########
+these files are stored in the /dev/pts (pseudo terminal
+session) directory. These files are created by the system when a
+user opens a new terminal session and they are removed on its
+closure. The destroyed files are recreated and reused for new
+terminal sessions
+
+#tty 				command used to identift terminal device file
+
+
+######## Identifying the command path #########
+
+# which yum 			displays the command path
+# which bash			displays the bash sheel path
+
+# whereis yum			used to find the location of source/binary file of a command and manuals sections for a specified file
+
+########## finding files and directories with find, locate and other commands  #########
+
+# find /path/to/search -name filename	generic syntax to find a file with name
+# find /home/shahid/ -name file1.txt	find the specific file on specific path
+
+
+# find /etc/ -name "dhclient*"				finds files with starting name of dhclient in specified path
+# find /etc/ -name "*.html"				finds html files in specific directory
+# find -O3 /etc/ -iname "dhc*"				finds files while ingnoring the case
+# find  /etc/ -maxdepth 1 -type f  -iname  "*.conf"	finds only files while ignoring the case and maxdepth of 1 directory
+# find  /etc/ -maxdepth 2 -type d -name "dhc*"		finds only directories with given starting name with dhc upto 2 subdirectories
+# find  /etc/ -mtime 5 -type f  -iname  "*.conf"	finds only files with .conf extention while ignoring the case and was modified in the preceding 5 days
+# find /etc/ -type f -size -1M				finds files having size less than 1MB to find greater than 1MB or use +1MB
+# find /var/www/html -perm 644				finds files by permissions
+# find / -user linuxize					finds files owned by specific user
+# find / -group shahid					find files which are owned by specific group shahid
+
+# find /path/ -maxdepth 5 -mtime 10 -size -1M 		make sure the sequence of operations which you are performaing
+
+# find /home/shahid/Desktop -mtime -1 -iname "archiv*" -exec rm {} \;    -exec is used to pass output to another command to process without user confirmation eg cp, mv, rm commands
+
+# find /home/shahid/Desktop -mtime +10 -iname "archiv*" -ok rm {} \; 	-ok is used to pass outpot to another command to process eg. cp rm mv command alongwith user confirmation
+
+# find /usr/ -type f -atime +100 -size +5M  -exec ls -lh {} \;
+
+
+################### Using The Grep Utility ####################
+
+
+# grep -v ^# /etc/login.defs  | grep -v ^$
+
+# grep -e "pattern" file.txt	#prints only lines matching the pattern
+# grep -o "pattern" file.txt	#prints only matching pattern
+
+
+
+############# Input Output Redirection  ################
+
+
+# ls -lat > listing.txt				lists and then save/overwrite output to the listing.txt file
+# ls -lat >> listing.txt			lists and then save/appends output to the listing.txt file
+
+
+# yum list | grep oracle			| sign takes input from a program and passes to other 
+
+
+
+
+
+
+
+
+
+
+
+
+
+						
+
+

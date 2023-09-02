@@ -1,0 +1,89 @@
+##################Accessing The Command line#################
+
+Checking the current shell
+
+$ ps -p $$     				displays the current shell
+$ echo $ SHELL 
+
+
+Changing the current shell 
+
+$ vim /etc/shells			lists all available shells 
+
+$ grep shahid /etc/passwd		displays the shell associated with User
+	
+$ usermod --shell /bin/bash shahid 	modifies shell associated with User by modifying the /etc/passwd file
+
+$ usermod --s /bin/bash shahid
+
+$ chsh --shell /bin/bash shahid		modifies shell associated with User by modifying the /etc/passwd file
+
+$ vim /etc/passwd 			by directly modifying the shell option in the /etc/passwd file using text editor
+
+
+
+
+
+####################Swithching Between Virtual Consoles/Run Levels####################
+
+how to change runlevels (targets) with systemd. Before we move any further, let’s briefly under the relationship between runlevels numbers and targets.
+
+    Run level 0 is matched by poweroff.target (and runlevel0.target is a symbolic link to poweroff.target).
+    Run level 1 is matched by rescue.target (and runlevel1.target is a symbolic link to rescue.target).
+    Run level 3 is emulated by multi-user.target (and runlevel3.target is a symbolic link to multi-user.target).
+    Run level 5 is emulated by graphical.target (and runlevel5.target is a symbolic link to graphical.target).
+    Run level 6 is emulated by reboot.target (and runlevel6.target is a symbolic link to reboot.target).
+    Emergency is matched by emergency.target.
+
+
+$ who -r 		Displays the current run level
+
+$ runlevel		lists the current and previous run level
+
+
+$ systemctl get-default				Displays the default run level in which system will boot
+
+$ systemctl set-default graphical.target	Sets the default run level to boot
+
+$ systemctl isolate multi-user.target		Changes the run level
+
+$  init 5 					Changes the run level
+
+$ for system which are not using systemd it can be done by editing the file /etc/inittab and  edit this line  id:3:initdefault: just changing the number to desired run level.
+						OR
+$ To change the default runlevel, use your favorite text editor on /etc/init/rc-sysinit.conf...
+
+$ sudo vim /etc/init/rc-sysinit.conf
+
+Change this line to whichever runlevel you want...
+
+env DEFAULT_RUNLEVEL=2
+
+Then, at each boot, upstart will use that runlevel.
+
+
+
+####################Accessing the CLI Through Telnet or SSH####################
+
+$ ssh localhost					Checks weather open ssh server is installed or not
+
+$ apt-get install openssh-client
+
+$ apt-get install openssh-client		installs the OpenSSH client
+
+$ yum install openssh-server			installs the Openssh server
+
+$ systemctl status sshd				displays the status of sshd service status
+
+$ ssh your_username@host_ip_address		command to ssh linus system
+
+$ vim /etc/ssh/sshd_config			edit the configuration file to change the default settings like port no, session limits, listenaddress etc
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,429 @@
+﻿############## The Shell ###############
+
+A shell is referred to as the command interpreter, and it is
+the interface between a user and the Linux kernel. The shell
+accepts instructions (commands) from users (or programs),
+interprets them, and passes them on to the kernel for
+processing. The kernel utilizes all hardware and software
+components required for a successful processing of the
+instructions.
+
+
+####Internal and External Shell Commands
+
+*** There is a rich collection of commands built in to the bash
+shell known as the internal commands. These include cd,
+pwd, umask, alias/unalias, history, command, . (dot), export,
+exit, test, shift, set/unset, source, exec, and break. Upon
+invocation, these commands are executed directly by the
+shell without creating a new process for them.
+
+*** commands located in various directories, such as /usr/bin
+and /usr/sbin, are external to the shell, and the shell spawns
+a temporary sub-shell (child shell) to run them
+
+#### Shell and Environment Variables
+A variable is a transient storage for data in memory. It
+retains information that is used for customizing the shell
+environment and referenced by many programs to function
+properly.
+
+#### local (or shell) and environment.
+A local variable is private to the shell in which
+it is created, and its value cannot be used by programs that
+are not started in that shell.
+
+#### current shell and sub-shell (or child shell). The current shell
+is where a program is executed, whereas a sub-shell (or child
+shell) is created within a shell to run a program. The value of
+a local variable is only available in the current shell.
+
+#### The value of an environment variable is inherited from the
+current shell to the sub-shell during the execution of a
+program. In other words, the value stored in an environment
+variable is accessible to the program, as well as any subprograms that it spawns
+ during its lifecycle. Any environment variable set in a sub-shell is lost when 
+the subshell terminates.
+
+
+########### Some of the common predefined environment variables #############
+
+Use the commands
+
+# echo $PATH  			prints the values stored in path variables
+
+# evn or printenv		prints all the values of environment variables
+
+
+###discription of these values are as under
+
+Variable			Description
+DISPLAY				Stores the hostname or IP address for graphical
+				terminal sessions
+HISTFILE			Defines the file for storing the history of executed
+commands
+HISTSIZE 			Defines the maximum size for the HISTFILE
+HOME 				Sets the home directory path
+LOGNAME 			Retains the login name
+MAIL 				Contains the path to the user mail directory
+PATH 				Defines a colon-separated list of directories to be
+				searched when executing a command. A correct
+				setting of this variable eliminates the need to
+				specify the absolute path of a command to run it.
+PPID 				Holds the identifier number for the parent program
+PS1 				Defines the primary command prompt
+PS2 				Defines the secondary command prompt
+PWD 				Stores the current directory location
+SHELL 				Holds the absolute path to the primary shell file
+TERM 				Holds the terminal type value
+UID 				Holds the logged-in user’s UID
+USER 				Retains the name of the logged-in user
+
+
+
+
+#### Using echo command to view environment variables  #####
+
+The command syntax is as under
+#echo $VARIABLE-NAME-IN-CAPITAL
+
+# echo $PATH
+
+# echo $SHELL
+
+
+
+#### Switching between shell and subshell  ####
+
+# bash 		command used to enter to subshell of bash
+
+# exit 		used to exit the subshell
+
+
+#### Setting and Unsetting the environment Variables  ####
+
+echo, unsett and export are commands for this purpose
+
+### if a variable contains one or more white spaces the it should be enclosed within ""
+
+
+
+##### Changing the default command prompt #####
+
+### we need to export PS1 environment variable and to make it permanent add this configuration to .bash_profile file present 
+in home directory of user to make the changes permanent to specific user.
+
+
+###### Set an Environment Variable in Linux Permanently #####
+
+If you wish a variable to persist after you close the shell session, you need to set it as an environmental variable permanently. You can choose between setting it for the current user or all users.
+
+1. To set permanent environment variables for a single user, edit the .bashrc file:
+
+# sudo nano ~/.bashrc
+
+2. Write a line for each variable you wish to add using the following syntax:
+
+       export [VARIABLE_NAME]=[variable_value]
+
+
+3. Save and exit the file. The changes are applied after you restart the shell. If you want to apply the changes during the current session, use the source command:
+
+# source ~/.bashrc
+
+
+4. To set permanent environment variables for all users, create an .sh file in the /etc/profile.d folder:
+
+sudo nano /etc/profile.d/[filename].sh
+
+5. The syntax to add variables to the file is the same as with .bashrc as under
+
+	export [VARIABLE_NAME]=[variable_value]
+
+6. Save and exit the file. The changes are applied at the next logging in.
+
+
+
+
+
+##### Output redirecting ######
+
+## < used for standard input or stdin
+## > used for standard output or stdout 
+## > is also used for standard error or stderr
+
+## > director overwrites existing file
+## >> appends instead of overwriting files
+
+## file discriptors can be used to isolate output which is being redirected
+
+
+
+#### History Substitution #####
+
+## by default a log of all commands is stored per user base in file name .bash_history present in user's home directory
+## this feature can be enabled or disabled
+## HISTFILE, HISTSIZE and HISTFILESIZE are the variables that control the location and history sotrage.
+## HISTSIZE dictates maximum number of commands to be held in memory for the current session
+## HISTFILESIZE controls maximum number of commands allowed for storage in history file.
+## HISTFILE file location can be manipulated by editing variables in .bashrc or .bash_profile file in specific users home directory
+
+
+# history 		command is used to display the commands history
+# history 20 		prints preceding 20 entries
+
+
+
+###### Editing at the Command Line #######
+
+There are plenty of key combinations for rapid movement on the command
+line.Below Table lists and explains several of these
+
+Key					Action
+Combinations
+		
+Ctrl+a / Home 		Moves the cursor to the beginning of the
+command line
+Ctrl+e / End 		Moves the cursor to the end of the command line
+Ctrl+u 			Erase the entire line
+Ctrl+k 			Erase from the cursor to the end of the command line
+Alt+f 			Moves the cursor to the right one word at a time
+Alt+b 			Moves the cursor to the left one word at a time
+Ctrl+f / Right arrow	Moves the cursor to the right one character at a time
+Ctrl+b / Left arrow 	Moves the cursor to the left one character at a time
+
+
+##### Tab Completion #####
+
+Tab completion (a.k.a. command line completion) is a bash shell feature whereby typing one or more initial characters of
+a file, directory, or command name at the command line and then hitting the Tab key twice automatically completes the
+entire name. In case of multiple possibilities matching the entered characters, it completes up to the point they have 
+in common and prints the rest of the possibilities on the screen.
+
+##### Tilde Substitution #####
+
+# echo ~ refers to users home directory or refers to $HOME environment variable
+
+# cd ~ 		changes current directory to home directory
+
+# echo ~+	refers to current working directory same as pwd command
+
+# echo ~-	refers to last working directory
+
+# echo ~user01	refers to home direcoty $HOME of specified user
+
+# cd ~shahid	changes directory to specified users home directory
+
+# cd ~/dir1 	changes working directory to current users specified child directory.
+
+
+#### Alias Substitution #####
+
+Alias substitution (a.k.a. command aliasing or alias) allows
+you to define a shortcut for a lengthy and complex command
+or a set of commands.use alias or unalias to add or remove aliases
+
+
+##### Metacharacters and Wildcard Characters ######
+
+Metacharacters are special characters that possess special
+meaning to the shell. Some of them are the dollar sign ($),
+caret (^), period (.), asterisk (*), question mark (?), pipe (|),
+angle brackets (< >), curly brackets ({}), square brackets
+([]), parentheses (()), plus (+), exclamation mark (!),
+semicolon (;), and backslash (\) characters. They are used in
+pattern matching (a.k.a. filename expansion or file globbing)
+and regular expressions. This sub-section discusses the
+metacharacters (* ? [] !) that are used in pattern matching.
+The *, ?, and [] characters are also referred to as wildcard
+characters
+
+###### The * Character
+The asterisk (*) matches zero to an unlimited number of
+characters except for the leading period (.) in a hidden
+filename.
+
+# ls *.conf 		lists all files names that ends with .conf
+
+# ls /home/sha*		lists all files and directory names that starts with sha
+
+# ls /home/shahid/.*	lists all files names that start with .
+
+
+###### The ? Character
+The question mark (?) matches exactly one character except
+for the leading period in a hidden filename. See the following
+example to understand its usage.
+
+# ls -d /var/log/???? 	matches exactly four chracters in names
+
+###### The Square Brackets [] and the Exclamation Mark !
+The square brackets ([]) can be used to match either a set of
+characters or a range [a-z] or [0-9] of characters for a single character
+position.and exclamation mark inverts the match
+
+# ls -l /etc/[ho]*		prints all files that contain either h or o 
+
+# ls -l /etc/[a-g]*		matches all file names that contains a to g range
+
+# ls -l /etc/![a-b]* 		prints all file names that contains chracter other than mentioned range
+
+
+##### Piping Output of One Command as Input to Another #####
+is used to send the output of one command as input to the next. 
+This character is also used to define alternations in regular
+expressions. You can use the pipe operator as many times in
+a command as you require.
+
+#ls -l /etc | less
+
+# ls -lvg /etc/ | grep host
+
+# ls -lvh /etc/ | nl
+
+######### Quoting Mechanisms  ##########
+metacharacters have special meaning to the
+shell. In order to use them as regular characters, the bash
+shell offers three quoting mechanisms to disable their
+special meaning and allow the shell to treat them as literal
+characters. These mechanisms are available through the use
+of the backslash (\), single quotation (‘’), and double
+quotation (“”) characters, and work by prepending a special
+character to the backslash, or enclosing it within single or
+double quotation marks.
+
+##### Prefixing with a Backslash \
+The backslash character (\), also referred to as the escape
+character in shell terminology, instructs the shell to mask the
+meaning of any special character that follows it.
+
+# rm /home/shahid/\* 	it will delete only file named as * otherwise it will remove everything 
+
+
+##### Enclosing within Single Quotes ‘’
+The single quotation marks (‘’) instructs the shell to mask
+the meaning of all encapsulated special characters and treat
+them as normal chracters.
+
+# echo '$SHELL'			with '' it will display $SHELL as output otherwise it displays the default shell path
+# touch /home/shahid/'*'	with '' it will create file named as * otherwise it touches everything under the specified directory
+
+
+#### Enclosing within Double Quotes “”
+The double quotation marks (“”) commands the shell to
+mask the meaning of all but the backslash (\), dollar sign ($),
+and single quotes (‘’). These three special characters retain
+their special meaning when they are enclosed within double
+quotes.
+
+# echo "$SHELL"
+
+# echo "'$SHELL'"
+
+# echo "\$SHELL"
+
+
+
+######### Regular Expressions ##########
+A regular expression, also referred to as a regexp or simply
+regex, is a text pattern or an expression that is matched
+against a string of characters in a file or supplied input in a
+search operation. The pattern may include a single character, 
+multiple random characters, a range of characters, word, phrase,
+or an entire sentence. Any pattern containing one or more white 
+spaces must be surrounded by quotation marks ''.
+
+#### grep (global regular expression print)
+
+# man 7 regex			mannual for regexp details
+
+## Prepend the caret sign (^) to the pattern “root” to markthe beginning of a line 
+## Append the dollar sign ($) to the pattern “bash” to mark the end of a line
+## pipe | character isused as an OR operator
+## period character (.) in the search string used to match a single position.
+## (*) asterisk matches for all
+##
+
+
+########### Running and Controlling jobs in Foreground and Background ############
+
+By default, any program or command you issue runs in the
+foreground and ties itself to the terminal window where it is
+initiated. It can be moved to continue to run in the
+background so that the associated terminal session is
+released for performing other tasks. 
+####A job is a process that is started in the background and controlled by the terminal
+where it is spawned.Unlike a normal process, a job does not hold theterminal window where
+it is initiated. This enables you to run other programs from the same terminal window.
+
+#### The shell allows running multiple jobs simultaneously,
+including transferring large amounts of data and running
+application programs in the background. 
+
+#### Background jobs can be brought to foreground, returned to the background,
+suspended, or stopped. 
+
+#### The management of multiple jobs within a shell environment is called job control.
+
+#### The shell offers certain commands and control sequences for
+administering the jobs as shown below
+
+    Command 			Description
+jobs 			Shell built-in command to display jobs
+bg 			Shell built-in command to move a job to the background 
+			or restart a job in the background that
+			was suspended with Ctrl+z
+fg 			Shell built-in command to move a job to the foreground
+Ctrl+z 			Suspends a foreground job and allows the terminal
+			window to be used for other purposes
+
+
+
+#### To run a job in the background, type the command at the
+command prompt followed by the ampersand (&) operator.
+
+#top &
+#vim &   	starts the specified program in background
+
+
+#### Issue the jobs command with the -l switch to view all the jobs
+running in the background
+
+#jobs -l 
+
+
+#### To bring job ID 1 to the foreground and start running it
+
+# fg %1 		where 1 is job id
+
+
+#### To suspend job ID 1, press ^z followed by bg %1 to let it run
+in the background.
+
+
+#### To terminate job ID 1, supply its PID (31726) to the kill
+command
+
+# kill 31726		where 31726 is process id of job checkd by jobs -l command
+
+
+#### A message similar to the following appears when a
+background job ends its execution:
+
+[2] + Done vi testfile1 &
+
+
+
+######### Shell Startup Files #########
+
+Modifications to the default shell environment can be stored
+in startup (or initialization) files. These files are sourced by
+the shell following user authentication at the time of logging
+in and before the command prompt appears. In addition,
+aliases, functions, and scripts can be added to these files as
+well. 
+
+### There are two types of startup files: system-wide and
+per-user
+
+#### System-wide Shell Startup Files  

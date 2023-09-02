@@ -1,0 +1,33 @@
+############## Gathereing System Info ################
+
+# uptime 			prints the uptime
+
+# uname				identifies elementary information about the system including its hostname 
+
+# lscpu				prints the Cpu related information
+
+
+######## Identifying the command path and command discriptionn #########
+
+# which yum 			displays the command path
+# which bash			displays the bash sheel path
+
+# whereis yum			used to find the location of source/binary file of a command and manuals sections for a specified file
+
+#what is yum			gives short discription of a specific command
+
+
+############ Getting Help ############
+Documentation in the /usr/share/doc Directory
+
+# apropos yum			search the manual page names and descriptions
+
+# man -k  yum			search the manual page names and descriptions
+
+# info or pinfo			command to display thetutorial of a command.
+
+
+
+
+
+

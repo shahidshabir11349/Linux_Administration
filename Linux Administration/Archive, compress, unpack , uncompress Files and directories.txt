@@ -1,0 +1,100 @@
+############### Archiving Using Tar Utility ###################
+
+An archive is a collection of data moved to a repository for long-term retention, to be kept separate for compliance
+reasons or for moving off primary storage media. It can include a simple list of files or files organized under a 
+directory or catalog structure, depending on how a particular program supports archiving.
+
+
+# tar [options] [archive-file] [file or directory to be archived]
+
+# tar -cvf archive.tar	file1 file2 directory1				creates an archive file with -f name option archive.tar for mentioned files and directory
+# tar -cvf archive.tar  /home/shahid/Desktop/				creates an archive of a whole directory
+# tar czvf ostechnix.tgz Downloads/ Documents/ ostechnix/file.odt	Create archive of multiple directories and/or files at a time
+$ tar czvf ostechnix.tgz /home/sk --exclude=/home/sk/Downloads		Exclude directories and/or files from while creating an archive
+# tar czf filename.tar.gz /home/directorytoarchive/ 			creates archive and compress with gunzip
+# tar rf ostechnix.tar ostechnix/ sk/ example.txt			Append files to existing archives
+
+# tar -tvf archive.tar						displays the files and directories present in archive file
+# tar -xf  archive.tar						unpacks files from archive.tar
+
+# tar -vf file.tar –delete file1 				to delete a specific file or directory from archive use -delete option
+# tar -f file.tar –delete dir1/*				supported by newer version only
+
+
+
+######## Create tar archives:
+
+    Plain tar archive: tar -cf archive.tar file1 file2 file3
+    Gzipped tar archive: tar -czf archive.tgz file1 file2 file3
+    Bzipped tar archive: tar -cjf archive.tbz file1 file2 file3
+
+####### Extract tar archives:
+
+    Plain tar archive: tar -xf archive.tar
+    Gzipped tar archive: tar -xzf archive.tgz
+    Bzipped tar archive: tar -xjf archive.tbz
+
+
+
+################ Compress And Decompress ##################
+
+####### Using Zip Utility
+
+# zip file_name.zip file1.txt file2.txt			zip two files in a zip file
+
+# zip -r file_name.zip file1.txt file2.txt folder1	zips files and directories recursively
+
+# zip file_name.zip *.bin *.config 			zips all files having .bin and .config extensions
+
+# zip -r file_name.zip  /home/shahid/Desktop/		zips all contents of a directory 
+
+# zip -q file_name.zip *.config 			zips files and directories while not showing the progress
+
+# zip -u filename.zip test.txt				adds a new file to existing zip file
+
+# zip -d filename.zip test.txt				removes a file from existing zip file
+
+# zip -m filename.zip test.txt				zips while deleting original files
+
+# zip -9 -r filename.zip /home/shahid/Desktop/		zips with specified level of compression 0 to 9
+
+# zip -e filename.zip *.txt 				zips while settings a password by prompting 
+
+# zipcloak filename.zip					sets password on already present zip file
+
+# zipinfo filename.zip					displays info about specified zip file
+
+# zipgrep expression filename.zip			seaches for specified expressions in the zip file
+
+# zipsplit -n 100000000 test.zip			splits a large zip file into smaller ones with size limit of 100MB
+
+
+
+
+# unzip filename.zip -d /path/to/directory		unzips contents of a zip file to another directory
+
+# unzip finename.zip -x test1.txt			unzips a zip file while excluding specified files
+
+# unzip -P password filename.zip /path/			unzips a password protected zip file
+
+# unzip -l test.zip					lists the contents of a zip file without extracting it
+
+# unzip -o filename.zip					overwrite all existing file without prompting while extracting
+
+# unzip -t filename.zip					checks whether there are any errors in the zip file
+
+
+
+
+########### Using Gunzip
+
+
+SYNOPSIS
+
+gunzip [ -acfhlLnNrtvV ] [-S suffix] [ name ... ]
+gzip [ -acdfhlLnNrtvV19 ] [-S suffix] [ name ... ]
+
+
+
+
+

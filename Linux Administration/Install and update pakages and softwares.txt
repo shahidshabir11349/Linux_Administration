@@ -1,0 +1,27 @@
+############### RPM (Red Hat Package Manager) Packaging ##################
+
+# rpm -q firefox			queries for specified pakage information
+# rpm -qi firefox			queries detailed information for specified pakage
+# rpm -qa | grep vim			lists the installed pakages the pass to the pipe then find the required
+# rpm -ql vim-enhanced			To view all the files of an installed rpm packages
+# rpm -qf /usr/bin/htpasswd		to query a file that belongs to which rpm pakage
+
+# rpm -Vp sqlbuddy-1.3.3-1.noarch.rpm		used to verify a pakage
+# rpm -K sqlbuddy.rpm				Validates the signature and package integrity
+# rpm --checksig pidgin-2.7.9-5.el6.2.i686.rpm	checks the pgp signature of pakage before installation to make sure integrity
+# rpm -qip sqlbuddy-1.3.3-1.noarch.rpm		get the information of prm pakage before installing
+# rpm -i /path-to/package-file 			installs a specified pakage 
+# rpm -U /path-to/pakage-file			upgrades a specified pakage or installs if not installed
+# rpm -F firefox				upgrades a already installed pakage
+# rpm -ivh /path-to/pakage-file			installes a pakage with verbose and progress 
+
+
+# rpm -evh vim-enhanced				delets a specified pakage
+# rpm -qpR /path-to/pakage-file			checks for dependencies for specified pakage
+
+
+
+############## Yellow Dog Updater, Modified (YUM) #################
+
+
+# 

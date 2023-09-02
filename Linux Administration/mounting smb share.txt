@@ -1,0 +1,16 @@
+
+################## mounting share drive #####################
+
+##### Pakages Required
+
+apt install cifs_utils	
+
+//172.16.10.6/D$ /home/hisdu/share/ cifs user=administrator,password=hisdu@123 # entry for auto mounting in /etc/fstab
+
+mount.cifs -o user=administrator,password=hisdu@123 \\\\172.16.10.6\\D$ /home/hisdu/share/ # for temporary mount a windows share drive
+
+
+robocopy /S /IM D:\path-to-copy\  \\172.16.10.6\D$\path-to-copy     #for updating or sync files from local to remote server including subdirectories and including modified or new files to destination
+
+
+robocopy /S /XO /MT:2 \\172.16.0.9\E$\Backup\  "F:\All Databases Backups\172.16.0.9\backup"\

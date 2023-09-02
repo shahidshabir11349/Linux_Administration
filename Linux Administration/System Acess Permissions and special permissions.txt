@@ -1,0 +1,126 @@
+﻿#######################################################
+# ls -l file_name
+
+
+-rw-r--r-- 12 linuxize users 12.0K Apr  28 10:10 file_name
+|[-][-][-]-   [------] [---]
+| |  |  | |      |       |
+| |  |  | |      |       +-----------> 7. Group
+| |  |  | |      +-------------------> 6. Owner
+| |  |  | +--------------------------> 5. Alternate Access Method
+| |  |  +----------------------------> 4. Others Permissions
+| |  +-------------------------------> 3. Group Permissions
+| +----------------------------------> 2. Owner Permissions
++------------------------------------> 1. File Type
+
+
+
+############### Changing Ownership of File or Directories
+
+# chown shahid /test		makes shahid owner of test directory changes only owner not group
+# chown user:group /test/	changes owner and group of the test directory
+
+
+############### Changing Permissions to File or Directories
+
+###### Absolute mode
+
+# chmod 755 -R /test/		assigns the rwx r-x r-x permissions to test folder and its subdirectories 
+# chmod 777 /test/		assings the rwx rwx rwx permissions to test folder
+# chmod 700 /test.txt		assigns the rwx o o permissions to the test.txt file
+# chmod 744 /test/		assigns the rwx r r permissions to the test forlder
+# chmod 764 /test/		assigns the rwx rw r permissions to the test folder
+
+
+###### Symbolic mode
+
+# chmod ugo=rwxr--r-- /test	assgigns and override existing permissions
+# chmod ugo+rwxrwxr-- /test	adds permissions to existing permissions
+# chmod ugo-rwxrw-r-- /test	removes permissions from existing permisssions
+# chmod a=rwx	/test		assigns rwx permissions to all
+# chmod g+rwx /test		
+# chmod o=rw	/test
+
+
+
+
+############### Changing Group Owner
+
+# chgrp group_name /test/	makes mentioned group owner of test directory
+
+
+
+
+Summary:
+
+    Linux being a multi-user system uses permissions and ownership for security.
+    There are three user types on a Linux system viz. User, Group and Other
+    Linux divides the file permissions into read, write and execute denoted by r,w, and x
+    The permissions on a file can be changed by ‘chmod’ command which can be further divided into Absolute and Symbolic mode
+    The ‘chown’ command can change the ownership of a file/directory. Use the following commands: chown user file or chown user:group file
+    The ‘chgrp’ command can change the group ownership chrgrp group filename
+    What does x – eXecuting a directory mean? A: Being allowed to “enter” a dir and gain possible access to sub-dirs.
+    You cannot have 2 groups owning the same file.
+    You do not have nested groups in Linux. One group cannot be sub-group of other
+
+
+
+############### Default Permissions
+
+Linux assigns default permissions to a file or directory at the time
+of its creation. Default permissions are calculated based on the
+umask (user mask) permission value subtracted from a preset
+initial permissions value. 
+default permissions are 774 in ugo  or 002 in umask
+
+Calculating the default permissions
+Initial Permissions 666
+umask – 002 (subtract)
+========================
+Default Permissions 664
+
+
+# umask 		displays the default permissions in octal form
+# umask -S		displays the default permissions in ugo format
+
+# umask 022		changes the default permissions
+
+
+############## Special Permissions
+
+three types of special permission bits that may be
+set on binary executable files or directories that respond
+differently to non-root users for certain operations.
+
+* 
+* set group identifier bit (setgid or sgid)
+* 
+
+
+
+#### set user identifier bit (setuid or suid)
+The setuid flag is set on binary executable files at the file owner
+level. With this bit set, the file is executed by non-owners with
+the same privileges as that of the file owner.
+denoted by s in user permission section
+
+#### set group identifier bit (setgid or sgid)
+The setgid attribute is set on binary executable files at the group
+level. With this bit set, the file is executed by non-owners with
+the exact same privileges as that of the group members.
+denoted by s in group permission section
+
+#### sticky bit
+The sticky bit is set on public and shared writable directories to
+protect files and subdirectories owned by normal users from
+being deleted or moved by other normal users
+denoted by T in others permission section
+
+
+
+
+
+
+
+
+ 
